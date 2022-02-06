@@ -48,7 +48,7 @@ RUN chown nobody:nobody /app
 
 USER nobody:nobody
 
-COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/bookshelfbot ./
+COPY --from=build --chown=nobody:nobody /app/_build/prod/rel/counselor ./
 
 ENV HOME=/app
 ENV MIX_ENV=prod
