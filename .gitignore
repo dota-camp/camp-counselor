@@ -27,3 +27,6 @@ counselor-*.tar
 
 # Cache directory for Elixir language server
 .elxir_ls
+
+# Secrets
+config/dev.secret.exs
