@@ -23,6 +23,9 @@ defmodule Counselor.MixProject do
   defp deps do
     [
       {:nostrum, "~> 0.4"},
+      {:ecto, "~> 3.7"},
+      {:ecto_sql, "~> 3.0"},
+      {:postgrex, ">= 0.0.0"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
     ]
   end

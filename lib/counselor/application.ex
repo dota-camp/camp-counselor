@@ -6,7 +6,8 @@ defmodule Counselor.Application do
   @impl true
   def start(_type, _args) do
     children = [
-      CounselorDiscord.Consumer
+      CounselorDiscord.Consumer,
+      Counselor.Repo
     ]
 
     opts = [strategy: :one_for_one, name: Counselor.Supervisor]

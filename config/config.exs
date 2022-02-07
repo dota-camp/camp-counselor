@@ -5,7 +5,8 @@ config :nostrum,
   num_shards: :auto
 
 config :counselor,
-  env: Mix.env()
+  env: Mix.env(),
+  ecto_repos: [Counselor.Repo]
 
 config :logger, :console,
   format: "\n$time [$level] $levelpad $message $metadata\n",
