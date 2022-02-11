@@ -1,7 +1,7 @@
 import Config
 
 config :logger,
-  level: :debug
+  level: :info
 
 config :counselor, Counselor.Repo,
   adapter: Ecto.Adapters.Postgres,

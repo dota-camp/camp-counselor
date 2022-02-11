@@ -2,20 +2,35 @@ defmodule Counselor.Repo.Migrations.AddMembersAndQuestions do
   use Ecto.Migration
 
   def change do
-    create table(:members) do
-      add :discord_nick, :string
-    end
-
     create table(:answers) do
-      add :answer, :string
-      add :answerer, references(:members)
+      add :content, :string
+
+      timestamps()
     end
 
     create table(:questions) do
-      add :question, :string
-      add :patch, :integer
-      add :asker, references(:members)
-      add :answers, references(:answers)
+      add :content, :string
+      add :patch, :string
+      add :answer_id, references(:answers)
+
+      timestamps()
+    end
+
+    create table(:members) do
+      add :discord_id, :string
+      add :answer_id, references(:answers)
+      add :question_id, references(:questions)
+    end
+
+    create unique_index(:members, [:discord_id])
+
+    alter table(:questions) do
+      add :member_id, references(:members)
+    end
+
+    alter table(:answers) do
+      add :question_id, references(:questions)
+      add :member_id, references(:members)
     end
   end
 end

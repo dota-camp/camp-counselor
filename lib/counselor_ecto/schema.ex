@@ -4,11 +4,12 @@ defmodule Counselor.Question do
   import Ecto.Changeset
 
   schema "questions" do
-    field :question, :string
+    field :content, :string
     field :patch, :string
-
-    has_one :asker, Counselor.Member
+    belongs_to :member, Counselor.Member
     has_many :answers, Counselor.Answer
+
+    timestamps()
   end
 
   @spec changeset(
@@ -21,8 +22,10 @@ defmodule Counselor.Question do
         ) :: Ecto.Changeset.t()
   def changeset(question, params \\ %{}) do
     question
-    |> cast(params, [:question, :asker, :answers, :patch])
-    |> validate_required([:question, :asker])
+    |> cast(params, [:content, :patch])
+    |> validate_required([:content, :member])
+    |> cast_assoc(:member, required: true, with: &Counselor.Member.changeset/2)
+    |> cast_assoc(:answers, required: false, with: &Counselor.Answer.changeset/2)
   end
 end
 
@@ -32,14 +35,17 @@ defmodule Counselor.Answer do
   import Ecto.Changeset
 
   schema "answers" do
-    field :answer, :string
-    has_one :answerer, Counselor.Member
+    field :content, :string
+    belongs_to :question, Counselor.Question
+    belongs_to :member, Counselor.Member
+
+    timestamps()
   end
 
   def changeset(answer, params \\ {}) do
     answer
-    |> cast(params, [:answer, :answerer])
-    |> validate_required([:answer, :answerer])
+    |> cast(params, [:content])
+    |> validate_required([:content])
   end
 end
 
@@ -49,12 +55,15 @@ defmodule Counselor.Member do
   import Ecto.Changeset
 
   schema "members" do
-    field :discord_nick, :string
+    field :discord_id, :string
+    has_many :questions, Counselor.Question
+    has_many :answers, Counselor.Question
   end
 
   def changeset(member, params \\ {}) do
     member
-    |> cast(params, [:discord_nick])
-    |> validate_required([:discord_nick])
+    |> cast(params, [:discord_id])
+    |> validate_required([:discord_id])
+    |> unique_constraint(:discord_id)
   end
 end

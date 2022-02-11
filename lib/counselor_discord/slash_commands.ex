@@ -6,12 +6,13 @@ defmodule CounselorDiscord.SlashCommands do
   require Logger
   alias Nostrum.Api
 
-  alias CounselorDiscord.SlashCommands.{Info}
+  alias CounselorDiscord.SlashCommands.{Info, Question}
 
   @spec register_commands() :: :ok
   def register_commands do
     commands = [
-      Info.get_command()
+      Info.get_command(),
+      Question.get_command()
     ]
 
     commands
@@ -70,6 +71,8 @@ defmodule CounselorDiscord.SlashCommands do
     case parse_interaction(interaction.data) do
       {:command, ["info"]} ->
         Info.handle_interaction(interaction)
+      {:command, ["question", content]} ->
+        Question.handle_interaction(interaction, content)
       _ ->
         %{content: "Unknown command"}
     end
