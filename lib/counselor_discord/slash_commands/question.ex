@@ -17,7 +17,7 @@ defmodule CounselorDiscord.SlashCommands.Question do
       options: [
         %{
           type: 3,
-          name: "question",
+          name: "content",
           description: "The question you'd like to ask.",
           required: true
         }
@@ -38,7 +38,10 @@ defmodule CounselorDiscord.SlashCommands.Question do
     # instead.
     #
     # Then use the build_assoc function to build an association with a new Question struct and
-    # insert it into the database.
+    # insert it into the database. The build_assoc isn't really too magical; all it really
+    # does is take member_id out of member and insert it into the question entry. The
+    # member_id is whats needed to create the 'belongs_to' association between a member and
+    # the question they are asking.
     #
     {:ok, question} = Repo.transaction fn ->
       member = Repo.insert!(member_record, on_conflict: :nothing)

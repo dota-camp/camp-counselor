@@ -22,6 +22,9 @@ defmodule Counselor.Repo.Migrations.AddMembersAndQuestions do
       add :question_id, references(:questions)
     end
 
+    # A unique index will enforce only one discord_id per
+    # member entry.
+    #
     create unique_index(:members, [:discord_id])
 
     alter table(:questions) do
