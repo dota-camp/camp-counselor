@@ -1,0 +1,18 @@
+# https://taskfile.dev
+
+version: '3'
+
+tasks:
+  dbreset:
+    cmds:
+      - mix ecto.drop
+      - mix ecto.create
+      - mix ecto.migrate
+  
+  run:
+    cmds:
+      - mix run --no-halt
+
+  interact:
+    cmds:
+      - iex -S mix
